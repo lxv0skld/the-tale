@@ -96,7 +96,6 @@ class ConstantsTest(utils_testcase.TestCase):
         self.assertEqual(c.MAX_BAG_SIZE, 12)
         self.assertEqual(c.BAG_SIZE_TO_SELL_LOOT_FRACTION, 0.33)
 
-        self.assertEqual(c.DESTINY_POINT_IN_LEVELS, 5)
         self.assertEqual(c.SPEND_MONEY_FOR_HEAL_HEALTH_FRACTION, 0.75)
 
         self.assertEqual(c.MINIMUM_QUESTS_REGION_SIZE, 15)
