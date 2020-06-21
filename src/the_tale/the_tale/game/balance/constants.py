@@ -1,4 +1,6 @@
 
+from tt_logic.model import constants as mc
+
 import smart_imports
 
 smart_imports.all()
@@ -31,14 +33,18 @@ EQUIPMENT_BREAK_FRACTION: float = 0.5  # доля артифактов в эки
 NORMAL_SLOT_REPAIR_PRIORITY: float = 1.0  # приоритет починки обычного слота
 SPECIAL_SLOT_REPAIR_PRIORITY: float = 2.0  # приоритет починки слота из предпочтения
 
-COMPANIONS_BONUS_EXP_FRACTION: float = 0.2  # доля бонусного опыта, которую могут приносить спутники
+# COMPANIONS_BONUS_EXP_FRACTION: float = 0.2  # доля бонусного опыта, которую могут приносить спутники
 
 # HERO_MOVE_SPEED: float = 0.1  # базовая скорость героя расстояние в ход
 
 DISTANCE_IN_ACTION_CYCLE: float = HERO_MOVE_SPEED * MOVE_TURNS_IN_ACTION_CYCLE
 
-HEALTH_IN_SETTLEMENT_TO_START_HEAL_FRACTION: float = 0.33  # если у героя здоровья меньше, чем указанная доля и он в городе, то он будет лечиться
-HEALTH_IN_MOVE_TO_START_HEAL_FRACTION: float = 2 * (1.0 / BATTLES_BEFORE_HEAL)  # если у героя здоровья меньше, чем указанная доля и он в походе, то он будет лечиться
+# если у героя здоровья меньше, чем указанная доля и он в городе, то он будет лечиться
+HEALTH_IN_SETTLEMENT_TO_START_HEAL_FRACTION: float = 0.33
+
+# если у героя здоровья меньше, чем указанная доля и он в походе, то он будет лечиться
+# делаем для героя запас на две битвы
+HEALTH_IN_MOVE_TO_START_HEAL_FRACTION: float = 2 * (1.0 / mc.BATTLES_BEFORE_HEAL)
 
 TURNS_TO_RESURRECT: int = TURNS_TO_IDLE * 3  # количество ходов на уровень, необходимое для воскрешения
 
@@ -76,17 +82,17 @@ COMPANIONS_DEFENDS_IN_BATTLE: float = 1.5  # среднее количество
 COMPANIONS_HEAL_FRACTION: float = 0.05  # доля действия уход за спутнкиком со средним количеством здоровья от всех действий героя
 
 # вероятность выпаденя артефакта из моба (т.е. вероятноть получить артефакт после боя)
-ARTIFACTS_PER_BATTLE: float = ARTIFACTS_LOOT_PER_DAY / (BATTLES_PER_HOUR * 24)
+ARTIFACTS_PER_BATTLE: float = ARTIFACTS_LOOT_PER_DAY / (mc.BATTLES_PER_HOUR * 24)
 
 # вероятность сломать артефакт после боя
-ARTIFACTS_BREAKS_PER_BATTLE: float = ARTIFACTS_BREAKING_SPEED / (BATTLES_PER_HOUR * 24)
+ARTIFACTS_BREAKS_PER_BATTLE: float = ARTIFACTS_BREAKING_SPEED / (mc.BATTLES_PER_HOUR * 24)
 
 ARTIFACT_FROM_PREFERED_SLOT_PROBABILITY: float = 0.25  # вероятность выбрать для покупки/обновления артефакт из предпочитаемого слота
 
 ARTIFACT_INTEGRITY_DAMAGE_PER_BATTLE: int = 1  # уменьшение целостности артефактов за бой
 ARTIFACT_INTEGRITY_DAMAGE_FOR_FAVORITE_ITEM: float = 0.5  # модификатор повреждений целостности любимого предмета
 
-_INTEGRITY_LOST_IN_DAY = BATTLES_PER_HOUR * 24 * ARTIFACT_INTEGRITY_DAMAGE_PER_BATTLE
+_INTEGRITY_LOST_IN_DAY = mc.BATTLES_PER_HOUR * 24 * ARTIFACT_INTEGRITY_DAMAGE_PER_BATTLE
 
 ARTIFACT_RARE_MAX_INTEGRITY_MULTIPLIER: float = 1.5  # коофициент увеличения максимальной целостности для редких артефактов
 ARTIFACT_EPIC_MAX_INTEGRITY_MULTIPLIER: float = 2  # коофициент увеличения максимальной целостности для эпических артефактов
@@ -100,8 +106,10 @@ ARTIFACT_BREAK_INTEGRITY_FRACTIONS: Tuple[float, float] = (0.1, 0.2)  # на с�
 
 PREFERED_MOB_LOOT_PROBABILITY_MULTIPLIER: float = 2.0  # множитель вероятности получения лута из любимой добычи
 
-DAMAGE_TO_HERO_PER_HIT_FRACTION: float = 1.0 / (BATTLES_BEFORE_HEAL * (BATTLE_LENGTH / 2 - COMPANIONS_DEFENDS_IN_BATTLE))  # доля урона, наносимого герою за удар
-DAMAGE_TO_MOB_PER_HIT_FRACTION: float = 1.0 / (BATTLE_LENGTH / 2)  # доля урона, наносимого мобу за удар
+# доля урона, наносимого герою за удар
+DAMAGE_TO_HERO_PER_HIT_FRACTION: float = 1.0 / (mc.BATTLES_BEFORE_HEAL * (mc.BATTLE_LENGTH / 2 - COMPANIONS_DEFENDS_IN_BATTLE))
+
+DAMAGE_TO_MOB_PER_HIT_FRACTION: float = 1.0 / (mc.BATTLE_LENGTH / 2)  # доля урона, наносимого мобу за удар
 DAMAGE_DELTA: float = 0.2  # разброс в значениях урона [1-DAMAGE_DELTA, 1+DAMAGE_DELTA]
 
 DAMAGE_CRIT_MULTIPLIER: float = 2.0  # во сколько раз увеличивается урон при критическом ударе
@@ -155,7 +163,7 @@ def speed_from_safety(danger: float, battles_per_turn: float) -> float:
     return -danger / ((battles_per_turn + danger) * (1 - battles_per_turn))
 
 
-_SAFETY_TO_TRANSPORT: float = round(-speed_from_safety(0.01, BATTLES_PER_TURN) / 0.01)
+_SAFETY_TO_TRANSPORT: float = round(-speed_from_safety(0.01, mc.BATTLES_PER_TURN) / 0.01)
 
 ##########################
 # Карта
@@ -227,7 +235,7 @@ HABITS_QUEST_ACTIVE_PREMIUM_MULTIPLIER: float = 1.5  # бонус к начис�
 KILL_BEFORE_BATTLE_PROBABILITY: float = 0.05  # вероятность убить мобы в начале боя
 PICKED_UP_IN_ROAD_TELEPORT_LENGTH: float = 1.0
 # бонус к скорости передвижения, эквивалентный вероятности убить моба
-PICKED_UP_IN_ROAD_SPEED_BONUS: float = BATTLES_PER_TURN * KILL_BEFORE_BATTLE_PROBABILITY * _SAFETY_TO_TRANSPORT
+PICKED_UP_IN_ROAD_SPEED_BONUS: float = mc.BATTLES_PER_TURN * KILL_BEFORE_BATTLE_PROBABILITY * _SAFETY_TO_TRANSPORT
 PICKED_UP_IN_ROAD_PROBABILITY: float = PICKED_UP_IN_ROAD_SPEED_BONUS / PICKED_UP_IN_ROAD_TELEPORT_LENGTH
 
 HABIT_QUEST_PRIORITY_MODIFIER: float = 1.0  # модификатор приоритета выбора заданий от предпочтений
@@ -254,8 +262,11 @@ PEACEFULL_BATTLE_PROBABILITY: float = 0.05  # вероятность мирно 
 HABIT_EVENTS_IN_DAY: float = 1.33  # количество событий в сутки
 HABIT_EVENTS_IN_TURN: float = HABIT_EVENTS_IN_DAY / 24 / TURNS_IN_HOUR  # вероятность события в ход
 
-HABIT_MOVE_EVENTS_IN_TURN: float = HABIT_EVENTS_IN_TURN / (BATTLES_BEFORE_HEAL * INTERVAL_BETWEEN_BATTLES / float(ACTIONS_CYCLE_LENGTH))  # вероятность события при движении
-HABIT_IN_PLACE_EVENTS_IN_TURN: float = HABIT_MOVE_EVENTS_IN_TURN * 10  # вероятность события в городе (с учётом имплементации)
+HABIT_EVENTS_MOVE_FRACTION: float = 0.1
+HABIT_EVENTS_IN_PLACE_FRACTION: float = 1 - HABIT_EVENTS_MOVE_PROBABILITY
+
+HABIT_EVENTS_MOVE_PROBABILITY: float = HABIT_EVENTS_MOVE_FRACTION * HABIT_EVENTS_IN_TURN
+HABIT_EVENTS_IN_PLACE_PROBABILITY: float = HABIT_EVENTS_IN_PLACE_FRACTION * HABIT_EVENTS_IN_TURN
 
 # приоритеты событий с разными эффектами
 HABIT_EVENT_NOTHING_PRIORITY: float = 4.0
@@ -453,7 +464,7 @@ COMPANIONS_BLOCK_MULTIPLIER_HERO_DEDICATION_DELTA: float = 0.2  # самоотв
 
 COMPANIONS_HABITS_DELTA: float = 0.5  # дельта изменения черт от среднего в зависимости от предпочтения
 
-COMPANIONS_DEFEND_PROBABILITY: float = COMPANIONS_DEFENDS_IN_BATTLE / (BATTLE_LENGTH / 2)
+COMPANIONS_DEFEND_PROBABILITY: float = COMPANIONS_DEFENDS_IN_BATTLE / (mc.BATTLE_LENGTH / 2)
 
 
 COMPANIONS_HEALS_IN_HOUR: float = 1.0  # частота действия уход за спутником в час
@@ -466,7 +477,7 @@ COMPANIONS_WOUNDS_IN_HOUR_FROM_HEAL: float = COMPANIONS_HEALS_IN_HOUR * COMPANIO
 COMPANIONS_WOUNDS_IN_HOUR_FROM_WOUNDS: float = COMPANIONS_MEDIUM_HEALTH / COMPANIONS_DAMAGE_PER_WOUND / (_COMPANIONS_MEDIUM_LIFETYME * 24)
 COMPANIONS_WOUNDS_IN_HOUR: float = COMPANIONS_WOUNDS_IN_HOUR_FROM_WOUNDS + COMPANIONS_WOUNDS_IN_HOUR_FROM_HEAL
 
-COMPANIONS_WOUND_ON_DEFEND_PROBABILITY_FROM_WOUNDS: float = COMPANIONS_WOUNDS_IN_HOUR_FROM_WOUNDS / (BATTLES_PER_HOUR * COMPANIONS_DEFENDS_IN_BATTLE)
+COMPANIONS_WOUND_ON_DEFEND_PROBABILITY_FROM_WOUNDS: float = COMPANIONS_WOUNDS_IN_HOUR_FROM_WOUNDS / (mc.BATTLES_PER_HOUR * COMPANIONS_DEFENDS_IN_BATTLE)
 
 COMPANIONS_HEAL_AMOUNT: int = 20
 
@@ -494,7 +505,7 @@ COMPANIONS_REGEN_ON_HEAL_AMOUNT: int = 1
 COMPANIONS_REGEN_BY_HERO: int = 1
 COMPANIONS_REGEN_BY_MONEY_SPEND: int = 1
 
-COMPANIONS_EATEN_CORPSES_PER_BATTLE: float = COMPANIONS_REGEN_PER_HOUR / BATTLES_PER_HOUR / COMPANIONS_EATEN_CORPSES_HEAL_AMOUNT
+COMPANIONS_EATEN_CORPSES_PER_BATTLE: float = COMPANIONS_REGEN_PER_HOUR / mc.BATTLES_PER_HOUR / COMPANIONS_EATEN_CORPSES_HEAL_AMOUNT
 COMPANIONS_REGEN_ON_HEAL_PER_HEAL: float = COMPANIONS_REGEN_PER_HOUR / COMPANIONS_HEALS_IN_HOUR / COMPANIONS_REGEN_ON_HEAL_AMOUNT
 COMPANIONS_HERO_REGEN_ON_HEAL_PER_HEAL: float = COMPANIONS_REGEN_PER_HOUR / COMPANIONS_HEALS_IN_HOUR / COMPANIONS_REGEN_BY_HERO
 

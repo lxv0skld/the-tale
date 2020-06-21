@@ -63,7 +63,6 @@ EXPERIENCE_PER_QUEST_MAX_MULTIPLIER: float = (1 +
 
 
 
-
 # # опыт за убийство моба (особенность черт)
 # EXP_FOR_KILL: int = 10  # средний опыт за убийство монстра
 # EXP_FOR_KILL_DELTA: float = 0.3  # разброс опыта за убийство

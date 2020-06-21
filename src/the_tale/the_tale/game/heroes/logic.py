@@ -125,6 +125,9 @@ def load_hero(hero_id=None, account_id=None, hero_model=None):
                         upbringing=tt_beings_relations.UPBRINGING(data.get('upbringing', tt_beings_relations.UPBRINGING.PHILISTINE.value)),
                         death_age=tt_beings_relations.AGE(data.get('death_age', tt_beings_relations.AGE.MATURE.value)),
                         first_death=tt_beings_relations.FIRST_DEATH(data.get('first_death', tt_beings_relations.FIRST_DEATH.FROM_THE_MONSTER_FANGS.value)),
+
+                        triggers=triggers.Triggers.deserialize(data['triggers']) if 'triggers' in data else triggers.new_hero_triggers(),
+
                         utg_name=utg_words.Word.deserialize(data['name']))
 
     sync_hero_external_data(hero)
@@ -143,6 +146,7 @@ def save_hero(hero, new=False):
             'first_death': hero.first_death.value,
             'position': hero.position.serialize(),
             'abilities': hero.abilities.serialize(),
+            'triggers': hero.triggers.serialize(),
             'last_religion_action_at_turn': hero.last_religion_action_at_turn}
 
     arguments = dict(saved_at_turn=game_turn.number(),
@@ -330,6 +334,9 @@ def create_hero(account_id, attributes):
                         upbringing=attributes['upbringing'],
                         death_age=attributes['death_age'],
                         first_death=attributes['first_death'],
+
+                        triggers=triggers.new_hero_triggers(),
+
                         utg_name=attributes['name'])
 
     dress_new_hero(hero)

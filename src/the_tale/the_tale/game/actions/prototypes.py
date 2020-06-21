@@ -326,19 +326,30 @@ class ActionBase(object):
 
         if event_reward.is_NOTHING:
             self.hero.add_message(message_type, diary=True, hero=self.hero, **self.action_event_message_arguments())
+
         elif event_reward.is_MONEY:
             coins = int(math.ceil(f.normal_loot_cost_at_lvl(self.hero.level)))
+
             self.hero.change_money(heroes_relations.MONEY_SOURCE.EARNED_FROM_HABITS, coins)
+
             self.hero.add_message(message_type, diary=True, hero=self.hero, coins=coins, **self.action_event_message_arguments())
+
         elif event_reward.is_ARTIFACT:
             artifact, unequipped, sell_price = self.hero.receive_artifact(equip=False,
                                                                           better=False,
                                                                           prefered_slot=False,
                                                                           prefered_item=False,
                                                                           archetype=False)
+
             self.hero.add_message(message_type, diary=True, hero=self.hero, artifact=artifact, **self.action_event_message_arguments())
+
         elif event_reward.is_EXPERIENCE:
-            experience = self.hero.add_experience(int(c.HABIT_EVENT_EXPERIENCE * random.uniform(1.0 - c.HABIT_EVENT_EXPERIENCE_DELTA, 1.0 + c.HABIT_EVENT_EXPERIENCE_DELTA)))
+            multiplier = random.uniform(1.0 - c.HABIT_EVENT_EXPERIENCE_DELTA,
+                                        1.0 + c.HABIT_EVENT_EXPERIENCE_DELTA)
+            experience = int(math.ceil(tt_progression_formulas.base_quest_experience(self.hero.level) * multiplier))
+
+            experience = self.hero.add_experience(experience, without_modifications=True)
+
             self.hero.add_message(message_type, diary=True, hero=self.hero, experience=experience, **self.action_event_message_arguments())
 
     def action_event_message_arguments(self):

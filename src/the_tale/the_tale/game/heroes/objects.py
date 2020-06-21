@@ -57,6 +57,8 @@ class Hero(logic_accessors.LogicAccessorsMixin,
 
                  'clan_id',
 
+                 'triggers',
+
                  # mames mixin
                  '_utg_name_form__lazy',
                  '_name__lazy')
@@ -102,7 +104,8 @@ class Hero(logic_accessors.LogicAccessorsMixin,
                  utg_name,
                  upbringing,
                  death_age,
-                 first_death):
+                 first_death,
+                 triggers):
 
         self.id = id
         self.account_id = account_id
@@ -174,6 +177,8 @@ class Hero(logic_accessors.LogicAccessorsMixin,
         self.upbringing = upbringing
         self.death_age = death_age
         self.first_death = first_death
+
+        self.triggers = triggers
 
         self.utg_name = utg_name
 
@@ -455,6 +460,8 @@ class Hero(logic_accessors.LogicAccessorsMixin,
         raise exceptions.UnkwnownAchievementTypeError(achievement_type=achievement_type)
 
     def process_rare_operations(self):
+        self.triggers.step()
+
         current_turn = game_turn.number()
 
         passed_interval = current_turn - self.last_rare_operation_at_turn
