@@ -8,10 +8,12 @@ def _time_on_level_in_interval_constructor(start_level: int, start_time: float,
     time_delta = stop_time - start_time
     levels_delta = stop_level - start_level
 
+    # на глаз бьём весь интервал времени на две части
+    # по base части определяем значение функции в начале интервала
+    # по k_space определяем прирост функции
+    # базовая часть нужна, чтобы обеспечить монотонность функции на границах интервалов
     base_fraction = 0.75
-
     base = base_fraction * (time_delta / levels_delta)
-
     k_space = time_delta * (1 - base_fraction)
 
     k = 2 * k_space / (levels_delta * (levels_delta + 1))
