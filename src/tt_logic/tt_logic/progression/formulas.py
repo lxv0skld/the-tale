@@ -8,13 +8,19 @@ def _time_on_level_in_interval_constructor(start_level: int, start_time: float,
     time_delta = stop_time - start_time
     levels_delta = stop_level - start_level
 
-    k = 2 * time_delta / (levels_delta * (levels_delta + 1))
+    base_fraction = 0.75
+
+    base = base_fraction * (time_delta / levels_delta)
+
+    k_space = time_delta * (1 - base_fraction)
+
+    k = 2 * k_space / (levels_delta * (levels_delta + 1))
 
     def f(level: int):
-        if level <= start_level:
-            raise ValueError(f'can not calculate time for level {level} in interval ({start_level}, {stop_level}]')
+        if level < start_level:
+            raise ValueError(f'can not calculate time for level {level} in interval [{start_level}, {stop_level})')
 
-        return k * (level - start_level)
+        return base + k * (1 + level - start_level)
 
     return f
 
@@ -28,6 +34,8 @@ def _time_on_level_calculators():
         calculator = _time_on_level_in_interval_constructor(*start, *stop)
 
         calculators.append((start[0], calculator))
+
+        start = stop
 
     calculators.reverse()
 
@@ -43,11 +51,11 @@ def time_on_level(level: int) -> float:
         if test_level <= level:
             return calculator(level)
 
-    raise NotImplementedError()
+    raise ValueError('unexpected level ({level}) value')
 
 
-def time_before_level(level: int) -> float:
-    return sum(time_on_level(i) for i in range(1, level))
+# def time_before_level(level: int) -> float:
+#     return sum(time_on_level(i) for i in range(1, level))
 
 
 # def exp_on_lvl(lvl: int) -> int:
