@@ -33,7 +33,7 @@ SPECIAL_SLOT_REPAIR_PRIORITY: float = 2.0  # приоритет починки �
 
 COMPANIONS_BONUS_EXP_FRACTION: float = 0.2  # доля бонусного опыта, которую могут приносить спутники
 
-HERO_MOVE_SPEED: float = 0.1  # базовая скорость героя расстояние в ход
+# HERO_MOVE_SPEED: float = 0.1  # базовая скорость героя расстояние в ход
 
 DISTANCE_IN_ACTION_CYCLE: float = HERO_MOVE_SPEED * MOVE_TURNS_IN_ACTION_CYCLE
 

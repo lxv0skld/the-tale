@@ -4,9 +4,9 @@
 # скорость прогрессии определяется через скорость получения уровней в единицу времени
 # так как это определяет пльзовательский опыт
 #
-# прогрессия экспоненциальная, подгоняется так, чтобы:
+# прогрессия подгоняется так, чтобы:
 # - скорость получения 1-ого уровня была фиксированной константой
-# - график получения уровней лежал между оптимистичным и пессимистичным прогнозами по временим выполнения заданий
+# - график получения уровней проходил через фиксированные точки
 #
 # прогнозы проверяются в тестах, там же смотри пояснение
 #
@@ -40,26 +40,29 @@ LEVEL_TIME_BASE_POINTS = [(1, 0 * _hours),
                           (int(0.5 * HERO_FULL_ABILITIES_LEVEL), 2 * _years),
                           (HERO_FULL_ABILITIES_LEVEL, 7 * _years)]
 
+# весь опыт приходит из нескольких источников:
+# - задания
+# - ритуалы в честь хранителя
+
+EXPERIENCE_PER_QUEST_FRACTION: float = 0.9
+EXPERIENCE_PER_RITAUL_FRACTION: float = 1 - EXPERIENCE_PER_QUEST_FRACTION
+
+# опыт за задание оцениваем исходя из
+# - эвристической оценёнки количества выполняемых заданий в единицу времени (см. оценку и границы в model.tests.test_formulas)
+# - желаемой формы роста награды за задание (см. tests.test_formulas)
+EXPERIENCE_PER_QUEST: int = 100
+
+# модификаторы опыта
+EXPERIENCE_ARTIFACT_SMALL_BONUS: float = 0.02
+EXPERIENCE_ARTIFACT_NORMAL_BONUS: float = 0.1
+EXPERIENCE_HERO_ABILITY_BONUS: float = 0.2
+
+EXPERIENCE_PER_QUEST_MAX_MULTIPLIER: float = (1 +
+                                              EXPERIENCE_ARTIFACT_NORMAL_BONUS +
+                                              EXPERIENCE_HERO_ABILITY_BONUS)
 
 
 
-# TIME_TO_LVL_DELTA: float = 7  # часов, разница во времени получения двух соседних уровней
-# TIME_TO_LVL_MULTIPLIER: float = 1.02  # множитель опыта, возводится в степень уровня
-
-# # магическое число — ожидаемое количество выполненных героем квестов в день
-# EXPECTED_QUESTS_IN_DAY: float = 2.0
-
-# EXP_PER_HOUR: int = 10  # опыт в час
-# EXP_PER_QUEST_FRACTION: float = 0.33  # разброс опыта за задание
-
-# с учётом возможных способностей (т.е. считаем, что при нужных абилках у премиума скорость получения опыта будет 1.0)
-# EXP_FOR_PREMIUM_ACCOUNT: float = 1.0  # модификатор опыта для премиум аккаунтов
-# EXP_FOR_NORMAL_ACCOUNT: float = 0.66  # модификатор опыта для обычных акканутов
-
-# TURNS_TO_IDLE: int = 6  # количество ходов на уровень, которое герой бездельничает в соответствующей action
-
-# BASE_EXPERIENCE_FOR_MONEY_SPEND: int = int(24 * EXP_PER_HOUR * 0.4)
-# EXPERIENCE_DELTA_FOR_MONEY_SPEND: float = 0.5
 
 # # опыт за убийство моба (особенность черт)
 # EXP_FOR_KILL: int = 10  # средний опыт за убийство монстра
@@ -77,3 +80,12 @@ LEVEL_TIME_BASE_POINTS = [(1, 0 * _hours),
 
 
 # ACTION_RELIGION_EXPERIENCE: int = 1  # сколько опыта за раз даём
+
+
+# с учётом возможных способностей (т.е. считаем, что при нужных абилках у премиума скорость получения опыта будет 1.0)
+# EXP_FOR_PREMIUM_ACCOUNT: float = 1.0  # модификатор опыта для премиум аккаунтов
+# EXP_FOR_NORMAL_ACCOUNT: float = 0.66  # модификатор опыта для обычных акканутов
+
+
+# BASE_EXPERIENCE_FOR_MONEY_SPEND: int = int(24 * EXP_PER_HOUR * 0.4)
+# EXPERIENCE_DELTA_FOR_MONEY_SPEND: float = 0.5

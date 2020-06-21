@@ -64,3 +64,15 @@ class TimeOnLevelTests(unittest.TestCase):
 
         with self.assertRaises(ValueError):
             f.time_on_level(-1)
+
+
+class BaseQuestExperienceTest(unittest.TestCase):
+
+    def test(self):
+        self.assertEqual(f.base_quest_experience(quest_rung=1), c.EXPERIENCE_PER_QUEST)
+        self.assertEqual(f.base_quest_experience(quest_rung=10), c.EXPERIENCE_PER_QUEST * 4.33)
+        self.assertEqual(f.base_quest_experience(quest_rung=25), c.EXPERIENCE_PER_QUEST * 5.65)
+        self.assertEqual(f.base_quest_experience(quest_rung=50), c.EXPERIENCE_PER_QUEST * 6.65)
+        self.assertEqual(f.base_quest_experience(quest_rung=75), c.EXPERIENCE_PER_QUEST * 7.23)
+        self.assertEqual(f.base_quest_experience(quest_rung=100), c.EXPERIENCE_PER_QUEST * 7.65)
+        self.assertEqual(f.base_quest_experience(quest_rung=c.HERO_FULL_ABILITIES_LEVEL), c.EXPERIENCE_PER_QUEST * 8.65)

@@ -56,11 +56,11 @@ class Health(BaseEffect):
 class Experience(BaseEffect):
     TYPE = relations.ARTIFACT_EFFECT.EXPERIENCE
     DESCRIPTION = 'Немного увеличивает получаемый героем опыт'
-    MULTIPLIER = 1.02
+    MULTIPLIER = tt_progression_constants.EXPERIENCE_ARTIFACT_SMALL_BONUS
 
     @classmethod
     def modify_attribute(cls, type_, value):
-        return value * cls.MULTIPLIER if type_.is_EXPERIENCE else value
+        return value + cls.MULTIPLIER if type_.is_EXPERIENCE else value
 
 
 class PersonPower(BaseEffect):
@@ -76,11 +76,11 @@ class PersonPower(BaseEffect):
 class Speed(BaseEffect):
     TYPE = relations.ARTIFACT_EFFECT.SPEED
     DESCRIPTION = 'Немного увеличивает скорость движения героя'
-    MODIFIER = 1.02
+    MODIFIER = tt_model_constants.HERO_SPEED_ARTIFACT_SMALL_BONUS
 
     @classmethod
     def modify_attribute(cls, type_, value):
-        return value * cls.MODIFIER if type_.is_SPEED else value
+        return value + cls.MODIFIER if type_.is_SPEED else value
 
 
 class Bag(BaseEffect):
@@ -136,11 +136,11 @@ class GreatHealth(BaseEffect):
 class GreatExperience(BaseEffect):
     TYPE = relations.ARTIFACT_EFFECT.GREAT_EXPERIENCE
     DESCRIPTION = 'Сильно увеличивает получаемый героем опыт'
-    MULTIPLIER = 1.1
+    MULTIPLIER = tt_progression_constants.EXPERIENCE_ARTIFACT_NORMAL_BONUS
 
     @classmethod
     def modify_attribute(cls, type_, value):
-        return value * cls.MULTIPLIER if type_.is_EXPERIENCE else value
+        return value + cls.MULTIPLIER if type_.is_EXPERIENCE else value
 
 
 class GreatPersonPower(BaseEffect):
@@ -156,11 +156,11 @@ class GreatPersonPower(BaseEffect):
 class GreatSpeed(BaseEffect):
     TYPE = relations.ARTIFACT_EFFECT.GREAT_SPEED
     DESCRIPTION = 'Сильно увеличивает скорость движения героя'
-    MODIFIER = 1.1
+    MODIFIER = tt_model_constants.HERO_SPEED_ARTIFACT_NORMAL_BONUS
 
     @classmethod
     def modify_attribute(cls, type_, value):
-        return value * cls.MODIFIER if type_.is_SPEED else value
+        return value + cls.MODIFIER if type_.is_SPEED else value
 
 
 class GreatBag(BaseEffect):

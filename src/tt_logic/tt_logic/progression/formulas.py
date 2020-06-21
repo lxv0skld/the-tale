@@ -1,4 +1,6 @@
 
+import math
+
 from . import constants as c
 
 
@@ -54,6 +56,23 @@ def time_on_level(level: int) -> float:
             return calculator(level)
 
     raise ValueError('unexpected level ({level}) value')
+
+
+def base_quest_experience(quest_rung: int) -> int:
+    return int(math.ceil(c.EXPERIENCE_PER_QUEST * (1 + math.log(quest_rung, 2))))
+
+
+def quests_on_level(level: int) -> float:
+    # при текущем состоянии баланса и логики игры нет возможности оценить количество заданий в сутки с какой-либо приемлемой точностью
+    # поэтому выбираем «пальцем в небо», ориентируясь на статистику
+    quests_in_day = 3
+    return time_on_level(level) * quests_in_day
+
+
+def experience_to_next_level(level: int) -> int:
+    experience_from_quests = quests_on_level(level) * base_quest_experience(level) * (1 + c.EXPERIENCE_PER_QUEST_MAXIMUM_BONUS)
+    total_experience = experience_from_quests / c.EXPERIENCE_PER_QUEST_FRACTION
+    return int(math.ceil(total_experience))
 
 
 # def time_before_level(level: int) -> float:

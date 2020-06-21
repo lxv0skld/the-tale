@@ -42,3 +42,31 @@ MOVE_TURNS_IN_HOUR: float = MOVE_TURNS_IN_ACTION_CYCLE * CYCLES_IN_HOUR
 
 # примерное количество боёв, которое будет происходить в час игрового времени
 BATTLES_PER_HOUR: float = BATTLES_BEFORE_HEAL * CYCLES_IN_HOUR
+
+#################
+# прочие действия
+#################
+
+ACTION_IDLE_MINIMUM_TURNS: int = int(math.ceil(0.25 * TURNS_IN_HOUR))
+ACTION_IDLE_TURNS_TO_LEVEL: int = 6  # количество ходов на уровень, которое герой бездельничает в соответствующем действии
+
+###############################
+# скорость героя (клеток / ход)
+###############################
+
+HERO_SPEED_BASE: float = 0.1
+
+# бонусы в долях
+HERO_SPEED_ARTIFACT_SMALL_BONUS: float = 0.02
+HERO_SPEED_ARTIFACT_NORMAL_BONUS: float = 0.1
+
+HERO_SPEED_COMPANION_SMALL_BONUS: float = 0.1
+HERO_SPEED_COMPANION_NORMAL_BONUS: float = 0.15
+HERO_SPEED_COMPANION_LARGE_BONUS: float = 0.2
+
+HERO_SPEED_ABILITY_BONUS: float = 0.15
+
+HERO_SPEED_MAX: float = HERO_SPEED_BASE * (1 +
+                                           HERO_SPEED_ARTIFACT_NORMAL_BONUS +
+                                           HERO_SPEED_COMPANION_LARGE_BONUS +
+                                           HERO_SPEED_ABILITY_BONUS)

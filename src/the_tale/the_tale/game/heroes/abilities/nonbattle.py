@@ -149,12 +149,13 @@ class WANDERER(prototypes.AbilityPrototype):
 
     # since experience not depends on time, this agruments MUST be equal or less then GIFTER.EXPERIENCE_MULTIPLIER
     # in other case, GIFTED will give less experience, then WANDERER
-    SPEED_MULTIPLIER = [1.03, 1.06, 1.09, 1.12, 1.15]
+    delta = tt_model_constants.HERO_SPEED_ABILITY_BONUS / 5
+    SPEED_MULTIPLIER = [i * delta for i in range(1, 6)]
 
     @property
     def speed_multiplier(self): return self.SPEED_MULTIPLIER[self.level - 1]
 
-    def modify_attribute(self, type_, value): return value * self.speed_multiplier if type_.is_SPEED else value
+    def modify_attribute(self, type_, value): return value + self.speed_multiplier if type_.is_SPEED else value
 
 
 class GIFTED(prototypes.AbilityPrototype):
@@ -167,12 +168,13 @@ class GIFTED(prototypes.AbilityPrototype):
     normalized_name = NAME
     DESCRIPTION = 'Одарённые герои быстрее получают опыт.'
 
-    EXPERIENCE_MULTIPLIER = [1.04, 1.08, 1.12, 1.16, 1.2]
+    delta = tt_progression_constants.EXPERIENCE_HERO_ABILITY_BONUS / 5
+    EXPERIENCE_MULTIPLIER = [i * delta for i in range(1, 6)]
 
     @property
     def experience_multiplier(self): return self.EXPERIENCE_MULTIPLIER[self.level - 1]
 
-    def modify_attribute(self, type_, value): return value * self.experience_multiplier if type_.is_EXPERIENCE else value
+    def modify_attribute(self, type_, value): return value + self.experience_multiplier if type_.is_EXPERIENCE else value
 
 
 class DIPLOMATIC(prototypes.AbilityPrototype):

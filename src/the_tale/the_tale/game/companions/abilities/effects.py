@@ -142,7 +142,7 @@ class PhysicDamageBonus(Multiplier):
     MODIFIER = heroes_relations.MODIFIERS.PHYSIC_DAMAGE
 
 
-class Speed(Multiplier):
+class Speed(Summand):
     TYPE = relations.EFFECT.SPEED
     MODIFIER = heroes_relations.MODIFIERS.SPEED
 
@@ -448,17 +448,32 @@ class ABILITIES(rels_django.DjangoEnum):
          PoliticsPower(0.5 * tt_politic_power_constants.MODIFIER_HERO_COMPANION,
                        1.0 * tt_politic_power_constants.MODIFIER_HERO_COMPANION), RARITY_BIGER, False, True),
         ('CAD', 18, 'хам', 'хамит горожанам, герою не доверяют политически важную работу, поэтому он оказывает меньшее влияние на мир (минимальный штраф к влиянию: -50%)',
-         PoliticsPower(-1.0 * tt_politic_power_constants.MODIFIER_HERO_COMPANION,
-                       -0.5 * tt_politic_power_constants.MODIFIER_HERO_COMPANION), RARITY_LOWER, False, True),
+         PoliticsPower(-1.5 * tt_politic_power_constants.MODIFIER_HERO_COMPANION,
+                       -1.0 * tt_politic_power_constants.MODIFIER_HERO_COMPANION), RARITY_LOWER, False, True),
 
         ('FIT_OF_ENERGY', 19, 'прилив сил', 'даёт небольшой бонус к физическому урону героя', PhysicDamageBonus(1.05, 1.1), RARITY_BIGER, False, True),
         ('PEP', 20, 'бодрость духа', 'даёт небольшой бонус к магическому урону героя', MagicDamageBonus(1.05, 1.1), RARITY_BIGER, False, True),
 
-        ('SLOW', 22, 'медлительный', 'постоянный штраф к скорости героя', Speed(0.7, 0.85), RARITY_LOWER, False, True),
-        ('SEDATE', 68, 'степенный', 'постоянный небольшой штраф к скорости героя', Speed(0.8, 0.9), RARITY_LOW, False, True),
-        ('SLED', 21, 'ездовой', 'постоянный небольшой бонус к скорости героя', Speed(1.05, 1.10), RARITY_BIG, False, True),
-        ('RACER', 23, 'скакун', 'постоянный бонус к скорости героя', Speed(1.1, 1.15), RARITY_BIGER, False, True),
-        ('FLEET_FOOTED', 69, 'быстроногий', 'постоянный большой бонус к скорости героя', Speed(1.1, 1.2), RARITY_BIGEST, False, True),
+        ('SLOW', 22, 'медлительный', 'постоянный штраф к скорости героя',
+         Speed(-1.5 * tt_model_constants.HERO_SPEED_COMPANION_NORMAL_BONUS
+               -1.0 * tt_model_constants.HERO_SPEED_COMPANION_NORMAL_BONUS),
+         RARITY_LOWER, False, True),
+        ('SEDATE', 68, 'степенный', 'постоянный небольшой штраф к скорости героя',
+         Speed(-1.5 * tt_model_constants.HERO_SPEED_COMPANION_SMALL_BONUS
+               -1.0 * tt_model_constants.HERO_SPEED_COMPANION_SMALL_BONUS),
+         RARITY_LOW, False, True),
+        ('SLED', 21, 'ездовой', 'постоянный небольшой бонус к скорости героя',
+         Speed(0.5 * tt_model_constants.HERO_SPEED_COMPANION_SMALL_BONUS
+               1.0 * tt_model_constants.HERO_SPEED_COMPANION_SMALL_BONUS),
+         RARITY_BIG, False, True),
+        ('RACER', 23, 'скакун', 'постоянный бонус к скорости героя',
+         Speed(0.5 * tt_model_constants.HERO_SPEED_COMPANION_NORMAL_BONUS
+               1.0 * tt_model_constants.HERO_SPEED_COMPANION_NORMAL_BONUS),
+         RARITY_BIGER, False, True),
+        ('FLEET_FOOTED', 69, 'быстроногий', 'постоянный большой бонус к скорости героя',
+         Speed(0.5 * tt_model_constants.HERO_SPEED_COMPANION_LARGE_BONUS
+               1.0 * tt_model_constants.HERO_SPEED_COMPANION_LARGE_BONUS),
+         RARITY_BIGEST, False, True),
 
         ('FIGHTER', 24, 'боец', 'немного увеличивает инициативу героя, в бою может применить способность «%s»' % BattleAbilityHit.ABILITY.NAME, BattleAbilityHit(), RARITY_BIGER, False, True),
         ('RAM', 25, 'громила', 'немного увеличивает инициативу героя, в бою может применить способность «%s»' % BattleAbilityStrongHit.ABILITY.NAME, BattleAbilityStrongHit(), RARITY_BIGER, False, True),
