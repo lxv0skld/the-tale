@@ -44,8 +44,9 @@ LEVEL_TIME_BASE_POINTS = [(1, 0 * _hours),
 # - задания
 # - ритуалы в честь хранителя
 
-EXPERIENCE_PER_QUEST_FRACTION: float = 0.9
-EXPERIENCE_PER_RITAUL_FRACTION: float = 1 - EXPERIENCE_PER_QUEST_FRACTION
+EXPERIENCE_PER_QUEST_FRACTION: float = 0.85
+EXPERIENCE_PER_COMPANION_SAY_WISDOM_FRACTION: float = 0.05
+EXPERIENCE_PER_RITAUL_FRACTION: float = 0.1
 
 # опыт за задание оцениваем исходя из
 # - эвристической оценёнки количества выполняемых заданий в единицу времени (см. оценку и границы в model.tests.test_formulas)

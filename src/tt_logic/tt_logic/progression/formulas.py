@@ -75,6 +75,21 @@ def experience_to_next_level(level: int) -> int:
     return int(math.ceil(total_experience))
 
 
+def expected_experience_per_day(level: int) -> float:
+    experience = experience_to_next_level(level)
+    time = time_on_level(level)
+
+    return experience / time
+
+
+def experience_from_companion_say_wisdom(level: int, triggers_in_day: float) -> int:
+    experience = expected_experience_per_day(level)
+    experience *= c.EXPERIENCE_PER_COMPANION_SAY_WISDOM_FRACTION
+    experience /= triggers_in_day
+
+    return int(math.ceil(experience))
+
+
 # def time_before_level(level: int) -> float:
 #     return sum(time_on_level(i) for i in range(1, level))
 

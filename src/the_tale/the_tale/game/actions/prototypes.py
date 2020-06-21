@@ -1160,7 +1160,7 @@ class ActionInPlacePrototype(ActionBase):
 
         if self.state == self.STATE.CHOOSING:
 
-            if random.uniform(0, 1) < c.HABIT_IN_PLACE_EVENTS_IN_TURN:
+            if self.hero.triggers.check(heroes_triggers.TRIGGER.HABIT_EVENT_IN_PLACE):
                 self.do_events()
 
             if self.hero.need_religion_ceremony and not self.hero.preferences.religion_type.is_SACRIFICE:
@@ -1823,18 +1823,21 @@ class ActionMoveSimplePrototype(ActionBase):
             self.state = self.STATE.BATTLE
             return
 
-        if random.uniform(0, 1) < c.HABIT_MOVE_EVENTS_IN_TURN:
+        if self.hero.triggers.check(heroes_triggers.TRIGGER.HABIT_EVENT_ON_MOVE):
             self.do_events()
 
         if (self.hero.companion and
             self.hero.can_companion_say_wisdom() and
-            random.random() < c.COMPANIONS_EXP_PER_MOVE_PROBABILITY):
+            self.hero.triggers.check(heroes_triggers.TRIGGER.COMPANION_EXPERIENCE_ON_MOVE)):
 
-            self.hero.add_experience(c.COMPANIONS_EXP_PER_MOVE_GET_EXP, without_modifications=True)
+            experience = tt_progression_formulas.experience_from_companion_say_wisdom(self.hero.level)
+
+            self.hero.add_experience(experience, without_modifications=True)
+
             self.hero.add_message('companions_say_wisdom',
                                   companion_owner=self.hero,
                                   companion=self.hero.companion,
-                                  experience=c.COMPANIONS_EXP_PER_MOVE_GET_EXP)
+                                  experience=experience)
 
         if random.uniform(0, 1) < 0.33:
             self.journal_message()

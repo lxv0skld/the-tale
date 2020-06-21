@@ -22,7 +22,8 @@ class ConstantsTest(unittest.TestCase):
                                                     (100, 2 * c._years),
                                                     (200, 7 * c._years)])
 
-        self.assertEqual(c.EXPERIENCE_PER_QUEST_FRACTION, 0.9)
+        self.assertEqual(c.EXPERIENCE_PER_QUEST_FRACTION, 0.8)
+        self.assertEqual(c.EXPERIENCE_PER_COMPANION_FRACTION, 0.1)
         self.assertAlmostEqual(c.EXPERIENCE_PER_RITAUL_FRACTION, 0.1)
 
         self.assertEqual(c.EXPERIENCE_PER_QUEST, 100)
@@ -34,4 +35,6 @@ class ConstantsTest(unittest.TestCase):
         self.assertEqual(c.EXPERIENCE_PER_QUEST_MAX_MULTIPLIER, 1.3)
 
     def test_experience_fractions_consistency(self):
-        self.assertAlmostEqual(c.EXPERIENCE_PER_QUEST_FRACTION + c.EXPERIENCE_PER_RITAUL_FRACTION, 1)
+        self.assertAlmostEqual(c.EXPERIENCE_PER_QUEST_FRACTION +
+                               c.EXPERIENCE_PER_COMPANION_FRACTION +
+                               c.EXPERIENCE_PER_RITAUL_FRACTION, 1)

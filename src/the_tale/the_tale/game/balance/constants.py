@@ -247,13 +247,9 @@ HABIT_LOOT_PROBABILITY_MODIFIER: float = 1.2  # бонус к вероятнос
 
 PEACEFULL_BATTLE_PROBABILITY: float = 0.05  # вероятность мирно разойтись с монстром, если все можно расходиться со всеми типами монстров
 
-# EXP_FOR_KILL: int = 10  # средний опыт за убийство монстра
-# EXP_FOR_KILL_DELTA: float = 0.3  # разброс опыта за убийство
 
-# _KILLS_IN_HOUR: float = TURNS_IN_HOUR / ACTIONS_CYCLE_LENGTH * BATTLES_BEFORE_HEAL
-
-# # вероятность получить опыт за убийство моба
-# EXP_FOR_KILL_PROBABILITY: float = (0.1 * EXP_PER_HOUR) / (EXP_FOR_KILL * _KILLS_IN_HOUR)
+EXP_FOR_KILL_IN_DAY: float = 1.33
+EXP_FOR_KILL_PROBABILITY: float = EXP_FOR_KILL_IN_DAY / 24 / TURNS_IN_HOUR
 
 ###########################
 # события для черт
