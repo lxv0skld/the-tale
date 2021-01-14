@@ -243,7 +243,7 @@ class HeroEffectTests(EffectsTestsBase):
 
     def setUp(self):
         super().setUp()
-        self.target_level = f.lvl_after_time(3 * 365 * 24)
+        self.target_level = f.lvl_after_time(3.0 * 365 * 24)
 
     def check_apply_positive(self, effect, expected_effect_value):
         with mock.patch('the_tale.game.jobs.effects.BaseEffect.invoke_hero_method') as invoke_hero_method:

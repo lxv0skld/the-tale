@@ -3,7 +3,7 @@ import smart_imports
 smart_imports.all()
 
 
-class AppSettings(object):
+class AppSettings:
     pass
 
 

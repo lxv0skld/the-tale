@@ -4,7 +4,7 @@ import smart_imports
 smart_imports.all()
 
 
-TIME_TO_LVL_DELTA: float = 7  # разница во времени получения двух соседних уровней
+TIME_TO_LVL_DELTA: float = 7.0  # разница во времени получения двух соседних уровней
 TIME_TO_LVL_MULTIPLIER: float = 1.02  # множитель опыта, возводится в степень уровня
 
 INITIAL_HP: int = 500  # начальное здоровье героя
@@ -79,7 +79,7 @@ EPIC_ARTIFACT_PROBABILITY: float = 0.005
 RARE_ARTIFACT_PROBABILITY: float = 0.05
 NORMAL_ARTIFACT_PROBABILITY: float = 1 - RARE_ARTIFACT_PROBABILITY - EPIC_ARTIFACT_PROBABILITY
 
-NORMAL_LOOT_COST: float = 1  # стоимость разной добычи на единицу уровня
+NORMAL_LOOT_COST: float = 1.0  # стоимость разной добычи на единицу уровня
 
 MAX_BAG_SIZE: int = 12  # максимальный размер рюкзака героя
 BAG_SIZE_TO_SELL_LOOT_FRACTION: float = 0.33  # процент заполненности рюкзака, после которого герой начнёт продавать вещи
@@ -89,7 +89,7 @@ BAG_SIZE_TO_SELL_LOOT_FRACTION: float = 0.33  # процент заполнен�
 BASE_EXPERIENCE_FOR_MONEY_SPEND: int = int(24 * EXP_PER_HOUR * 0.4)
 EXPERIENCE_DELTA_FOR_MONEY_SPEND: float = 0.5
 
-POWER_TO_LVL: float = EQUIP_SLOTS_NUMBER  # бонус к ожидаемой силе на уровнеь героя
+POWER_TO_LVL: float = float(EQUIP_SLOTS_NUMBER)  # бонус к ожидаемой силе на уровнеь героя
 
 # Разброс силы артефактов делаем от -ItemPowerDelta до +ItemPowerDelta.
 # за базу берём количество слотов, т.е., теоретически, может не быть предметов с повторяющейся силой
@@ -134,7 +134,7 @@ ARTIFACT_INTEGRITY_DAMAGE_FOR_FAVORITE_ITEM: float = 0.5  # модификато
 _INTEGRITY_LOST_IN_DAY = BATTLES_PER_HOUR * 24 * ARTIFACT_INTEGRITY_DAMAGE_PER_BATTLE
 
 ARTIFACT_RARE_MAX_INTEGRITY_MULTIPLIER: float = 1.5  # коофициент увеличения максимальной целостности для редких артефактов
-ARTIFACT_EPIC_MAX_INTEGRITY_MULTIPLIER: float = 2  # коофициент увеличения максимальной целостности для эпических артефактов
+ARTIFACT_EPIC_MAX_INTEGRITY_MULTIPLIER: float = 2.0  # коофициент увеличения максимальной целостности для эпических артефактов
 ARTIFACT_MAX_INTEGRITY_DELTA: float = 0.25  # разброс допустимой максимальной целостности
 
 ARTIFACT_MAX_INTEGRITY: int = int(round(_INTEGRITY_LOST_IN_DAY * 30, -3))  # максимальная целостность обычного артефакта
@@ -200,7 +200,7 @@ def speed_from_safety(danger: float, battles_per_turn: float) -> float:
     return -danger / ((battles_per_turn + danger) * (1 - battles_per_turn))
 
 
-_SAFETY_TO_TRANSPORT: float = round(-speed_from_safety(0.01, BATTLES_PER_TURN) / 0.01)
+_SAFETY_TO_TRANSPORT: float = float(round(-speed_from_safety(0.01, BATTLES_PER_TURN) / 0.01))
 
 ##########################
 # Карта
@@ -327,8 +327,8 @@ PVP_MAX_ADVANTAGE_STEP: float = 0.25
 PVP_ADVANTAGE_BARIER: float = 0.95
 PVP_EFFECTIVENESS_EXTINCTION_FRACTION: float = 0.1
 
-PVP_EFFECTIVENESS_STEP: float = 10
-PVP_EFFECTIVENESS_INITIAL: float = 300
+PVP_EFFECTIVENESS_STEP: float = 10.0
+PVP_EFFECTIVENESS_INITIAL: float = 300.0
 
 ###########################
 # города
@@ -402,10 +402,10 @@ PLACE_RACE_CHANGE_DELTA: float = (PLACE_RACE_CHANGE_DELTA_IN_DAY * MAP_SYNC_TIME
 
 PLACE_STABILITY_UNIT: float = 0.1  # базовая единица изменения стабильности
 
-PLACE_STABILITY_MAX_PRODUCTION_PENALTY: float = -PLACE_GOODS_BONUS * 2
+PLACE_STABILITY_MAX_PRODUCTION_PENALTY: float = float(-PLACE_GOODS_BONUS * 2)
 PLACE_STABILITY_MAX_SAFETY_PENALTY: float = -0.15
-PLACE_STABILITY_MAX_TRANSPORT_PENALTY: float = PLACE_STABILITY_MAX_SAFETY_PENALTY * _SAFETY_TO_TRANSPORT
-PLACE_STABILITY_MAX_FREEDOM_PENALTY: float = -PLACE_STABILITY_MAX_TRANSPORT_PENALTY
+PLACE_STABILITY_MAX_TRANSPORT_PENALTY: float = float(PLACE_STABILITY_MAX_SAFETY_PENALTY * _SAFETY_TO_TRANSPORT)
+PLACE_STABILITY_MAX_FREEDOM_PENALTY: float = -float(PLACE_STABILITY_MAX_TRANSPORT_PENALTY)
 PLACE_STABILITY_MAX_CULTURE_PENALTY: float = -1.0
 
 PLACE_STABILITY_PENALTY_FOR_MASTER: float = -0.15
@@ -426,8 +426,8 @@ PLACE_STABILITY_FROM_BEST_PERSON: float = 1.0 / _STABILITY_PERSONS_POINTS
 WHILD_TRANSPORT_PENALTY: float = 0.1  # штраф к скорости в диких землях и на фронтире
 TRANSPORT_FROM_PLACE_SIZE_PENALTY: float = 0.05  # штраф к скорости от размера города
 
-PLACE_HABITS_CHANGE_SPEED_MAXIMUM: float = 10
-PLACE_HABITS_CHANGE_SPEED_MAXIMUM_PENALTY: float = 10
+PLACE_HABITS_CHANGE_SPEED_MAXIMUM: float = 10.0
+PLACE_HABITS_CHANGE_SPEED_MAXIMUM_PENALTY: float = 10.0
 PLACE_HABITS_EVENT_PROBABILITY: float = 0.025
 
 

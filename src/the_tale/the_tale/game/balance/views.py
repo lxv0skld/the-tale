@@ -14,7 +14,7 @@ class BalanceResource(utils_resources.Resource):
     def show_balance(self):  # pylint: disable=R0914
         tmp_time = ['начало', '8 часов', 'день', 'неделя', 'месяц', '3 месяца', '6 месяцев', '1 год', '2 года', '3 года', '4 года', '5 лет', '6 лет']
         tmp_times = [0, 8, 24, 24 * 7, 24 * 30, 24 * 30 * 3, 24 * 30 * 6, 24 * 30 * 12, 24 * 30 * 12 * 2, 24 * 30 * 12 * 3, 24 * 30 * 12 * 4, 24 * 30 * 12 * 5, 24 * 30 * 12 * 6]
-        tmp_lvls = list(map(f.lvl_after_time, tmp_times))
+        tmp_lvls = list(map(lambda x: f.lvl_after_time(float(x)), tmp_times))
 
         # Всё, что ниже, должно зависеть от уровня, не от времени, т.к. время в данном случае не точный параметр, а анализ всё равно ориентируется на уровень.
 

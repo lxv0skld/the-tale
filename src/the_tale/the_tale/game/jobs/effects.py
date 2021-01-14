@@ -196,7 +196,7 @@ class HeroMoney(HeroMethod):
     EFFECT_NAME = 'HERO_MONEY'
     METHOD_NAME = 'job_money'
 
-    TARGET_LEVEL = f.lvl_after_time(3 * 365 * 24)
+    TARGET_LEVEL = f.lvl_after_time(3.0 * 365 * 24)
 
     def money(self, job_power):
         return max(1, int(math.ceil(f.normal_action_price(self.TARGET_LEVEL) * job_power * c.JOB_MIN_LENGTH)))

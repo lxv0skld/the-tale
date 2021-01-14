@@ -1,11 +1,13 @@
 
+import typing
+
 import smart_imports
 
 smart_imports.all()
 
 
 class TheTaleError(Exception):
-    MSG = NotImplemented
+    MSG: typing.Union[str, type(NotImplemented)] = NotImplemented
 
     def __init__(self, **kwargs):
         super().__init__(self.MSG % kwargs)

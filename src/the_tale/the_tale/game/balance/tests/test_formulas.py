@@ -57,7 +57,7 @@ class FormulasTest(utils_testcase.TestCase):
 class AchievementsBarriers(utils_testcase.TestCase):
 
     def money_after_months(self, months):
-        return f.total_gold_at_lvl(f.lvl_after_time(months * 30 * 24))
+        return f.total_gold_at_lvl(f.lvl_after_time(float(months) * 30 * 24))
 
     def check_money(self, months, money):
         # print months, self.money_after_months(months) , self.money_after_months(months+0.25)
