@@ -28,7 +28,8 @@ class HeroDescriptionTests(utils_testcase.TestCase):
         account = accounts_prototypes.AccountPrototype.get_by_id(self.hero.id)
         logic.set_hero_description(self.hero.id, "bla-bla")
         self.assertFalse(account.is_ban_game)
-        account.ban_game(days=1)
+        with mock.patch('the_tale.game.workers.supervisor.Worker.cmd_sync_hero_required') as cmd_sync_hero_required:
+            account.ban_game(days=1)
         self.assertTrue(account.is_ban_game)
         self.check_html_ok(self.request_html(django_reverse('game:heroes:show', args=[account.id])),
                            texts=["test-no-hero-description-message"])
@@ -38,6 +39,48 @@ class HeroDescriptionTests(utils_testcase.TestCase):
         logic.set_hero_description(self.hero.id, 'new description')
         self.assertEqual(logic.get_hero_description(self.hero.id), 'new description')
 
+
+class HeroInfoTests(utils_testcase.TestCase):
+    def setUp(self):
+        super().setUp()
+
+        game_logic.create_test_map()
+
+        account = self.accounts_factory.create_account(is_fast=True)
+
+        self.storage = game_logic_storage.LogicStorage()
+        self.storage.load_account_data(account.id)
+        self.hero = self.storage.accounts_to_heroes[account.id]
+
+    def test_hero_info(self):
+        account = accounts_prototypes.AccountPrototype.get_by_id(self.hero.id)
+        self.check_html_ok(self.request_html(django_reverse('game:heroes:show', args=[account.id])),
+                           texts=["easy-block hero-base-block"])
+        
+    def test_hero_equipment_info(self):
+        account = accounts_prototypes.AccountPrototype.get_by_id(self.hero.id)
+        self.check_html_ok(self.request_html(django_reverse('game:heroes:show', args=[account.id])),
+                            texts=["hero-equipment-block"])
+        
+    def test_hero_attributes_button(self):
+        account = accounts_prototypes.AccountPrototype.get_by_id(self.hero.id)
+        self.check_html_ok(self.request_html(django_reverse('game:heroes:show', args=[account.id])),
+                            texts=["pgf-attributes-tab-button"])
+        
+    def test_hero_politics_button(self):
+        account = accounts_prototypes.AccountPrototype.get_by_id(self.hero.id)
+        self.check_html_ok(self.request_html(django_reverse('game:heroes:show', args=[account.id])),
+                            texts=["pgf-politics-tab-button"])
+        
+    def test_hero_statistics_button(self):
+        account = accounts_prototypes.AccountPrototype.get_by_id(self.hero.id)
+        self.check_html_ok(self.request_html(django_reverse('game:heroes:show', args=[account.id])),
+                            texts=["pgf-statistics-tab-button"])
+    
+    def test_hero_statistics_button(self):
+        account = accounts_prototypes.AccountPrototype.get_by_id(self.hero.id)
+        self.check_html_ok(self.request_html(django_reverse('game:heroes:show', args=[account.id])),
+                            texts=["pgf-settings-tab-button"])
 
 class CreateHero(utils_testcase.TestCase):
 
@@ -186,7 +229,7 @@ class RegisterSpendingTests(utils_testcase.TestCase):
         self.assertTrue(impacts[0].target_type.is_PLACE)
         self.assertEqual(impacts[0].target_id, self.places[0].id)
 
-    @mock.patch('the_tale.game.heroes.objects.Hero.can_change_place_power', lambda hero, place: True)
+    @mock.patch('the_tale.game.heroe    .objects.Hero.can_change_place_power', lambda hero, place: True)
     def test_can_change_place_power__below_zero(self):
         self.hero.position.set_place(self.places[0])
 
