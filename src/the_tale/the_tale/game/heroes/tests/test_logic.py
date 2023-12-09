@@ -77,7 +77,7 @@ class HeroInfoTests(utils_testcase.TestCase):
         self.check_html_ok(self.request_html(django_reverse('game:heroes:show', args=[account.id])),
                             texts=["pgf-statistics-tab-button"])
     
-    def test_hero_statistics_button(self):
+    def test_hero_settings_button(self):
         account = accounts_prototypes.AccountPrototype.get_by_id(self.hero.id)
         self.check_html_ok(self.request_html(django_reverse('game:heroes:show', args=[account.id])),
                             texts=["pgf-settings-tab-button"])
